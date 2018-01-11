@@ -1,14 +1,18 @@
 # Instrumentation and deep data binding for react.js
 
-Usage:
-    import { observer, observed } from 'instrumentation-react.js' //import decorators
+Usage:<br>
+     &nbsp;import { observer, observed } from 'instrumentation-react.js'
 
-@observer() //class decorator
-class Text1 extends Component {
-    state = {
-        checked: true
-    }
-
-    @observed() // property decorator
-    test = null 
-}
+@observer()<br>
+class Text1 extends Component {<br>
+     &nbsp;state = {<br>
+        &nbsp; &nbsp;checked: true<br>
+     &nbsp;}<br>
+    <br>
+     &nbsp;@observed()<br>
+     &nbsp;test = null <br>
+    <br>
+     &nbsp;render(){<br>
+        &nbsp;//<br> 
+     &nbsp;}<br>
+}<br>
