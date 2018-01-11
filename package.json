@@ -1,6 +1,6 @@
 {
     "name": "instrumentation-react.js",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Instrumentation and deep data binding for react.js",
     "main": "dist/index.js",
     "scripts": {
