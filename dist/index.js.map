@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/index.ts"],"names":[],"mappings":";;;;;AAAA,8BAA2B;AAC3B,6CAAuC","file":"index.js","sourcesContent":["import 'instrumentation.js'\nexport * from './instrumentation_react'\n"]}
