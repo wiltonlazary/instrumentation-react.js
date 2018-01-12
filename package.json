@@ -1,6 +1,6 @@
 {
     "name": "instrumentation-react.js",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Instrumentation and deep data binding for react.js",
     "main": "dist/index.js",
     "scripts": {
@@ -24,23 +24,23 @@
     },
     "homepage": "https://github.com/wiltonlazary/instrumentation-react.js#readme",
     "dependencies": {
-        "instrumentation.js": "^1.0.17"
+        "instrumentation.js": "^1.0.19"
     },
     "devDependencies": {
-        "@types/node": "^8.5.2",
+        "@types/node": "^8.5.8",
         "fs-extra": "^4.0.3",
         "glob": "^7.1.2",
         "glob-to-regexp": "^0.3.0",
         "gulp": "^3.9.1",
-        "gulp-filter": "^5.0.1",
+        "gulp-filter": "^5.1.0",
         "gulp-function": "^2.2.9",
-        "gulp-sourcemaps": "^2.6.2",
+        "gulp-sourcemaps": "^2.6.3",
         "gulp-typescript": "^3.2.3",
         "gulp-watch": "^4.3.11",
-        "merge2": "^1.2.0",
+        "merge2": "^1.2.1",
         "mocha": "^3.5.3",
         "ts-node": "^3.3.0",
-        "tslint": "^5.8.0",
+        "tslint": "^5.9.1",
         "tslint-config-ccs": "^0.5.3",
         "typedoc": "^0.7.2",
         "typescript": "^2.6.2"

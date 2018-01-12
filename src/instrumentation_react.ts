@@ -13,21 +13,23 @@ export function observed(params: string | Array<any> = ''): any {
 }
 
 export function reactObservedConsumer(value, detail) {
-    if (detail.content.value != detail.content.oldValue) {
+    if (detail.content.changed) {
         console.log('reactObservedConsumer', detail)
         const component = detail.binder.producer
 
         if (!detail.carrier.onFinished) {
             detail.carrier.onFinished = (value, result) => {
                 const __updatedSeq = component.state.__updatedSeq
+                bypassNextBinderDispatch()
                 component.state.__updatedSeq = !__updatedSeq || __updatedSeq === Number.MAX_SAFE_INTEGER ? 1 : __updatedSeq + 1
+                component.forceUpdate()
             }
         }
     }
 }
 
 function reactStateObservedConsumer(value, detail) {
-    if (detail.content.value != detail.content.oldValue) {
+    if (detail.content.changed) {
         detail.binder.producer.forceUpdate()
     }
 
@@ -50,25 +52,25 @@ export function observer(params: string | Array<any> = '/.*'): any {
 
         binds.push(['state', undefined, [typeof params === 'string' ? [params] : params, reactStateObservedConsumer]])
 
-        binds.forEach(bindParams => {
-            const key = bindParams[0]
-            const keyDescriptor = bindParams[1]
+        // binds.forEach(bindParams => {
+        //     const key = bindParams[0]
+        //     const keyDescriptor = bindParams[1]
 
-            if (!keyDescriptor) {
-                const backingPropertyName = `__${key}`
+        //     if (!keyDescriptor) {
+        //         const backingPropertyName = `__${key}`
 
-                Object.defineProperty(targetPrototype, key, {
-                    get: function () {
-                        return this[backingPropertyName]
-                    },
-                    set: function (value) {
-                        this[backingPropertyName] = value
-                    },
-                    enumerable: true,
-                    configurable: true
-                })
-            }
-        })
+        //         Object.defineProperty(targetPrototype, key, {
+        //             get: function () {
+        //                 return this[backingPropertyName]
+        //             },
+        //             set: function (value) {
+        //                 this[backingPropertyName] = value
+        //             },
+        //             enumerable: true,
+        //             configurable: true
+        //         })
+        //     }
+        // })
 
         const bindOut = function (self, key: string, element: string, comsumer) {
             if (element.length === 0) {

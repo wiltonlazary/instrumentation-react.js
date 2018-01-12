@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const instrumentation_js_1 = require("instrumentation.js");
 function observed(params = '') {
     return (target, propertyKey, descriptor) => {
         const targetPrototype = target.constructor.prototype;
@@ -11,20 +12,22 @@ function observed(params = '') {
 }
 exports.observed = observed;
 function reactObservedConsumer(value, detail) {
-    if (detail.content.value != detail.content.oldValue) {
+    if (detail.content.changed) {
         console.log('reactObservedConsumer', detail);
         const component = detail.binder.producer;
         if (!detail.carrier.onFinished) {
             detail.carrier.onFinished = (value, result) => {
                 const __updatedSeq = component.state.__updatedSeq;
+                instrumentation_js_1.bypassNextBinderDispatch();
                 component.state.__updatedSeq = !__updatedSeq || __updatedSeq === Number.MAX_SAFE_INTEGER ? 1 : __updatedSeq + 1;
+                component.forceUpdate();
             };
         }
     }
 }
 exports.reactObservedConsumer = reactObservedConsumer;
 function reactStateObservedConsumer(value, detail) {
-    if (detail.content.value != detail.content.oldValue) {
+    if (detail.content.changed) {
         detail.binder.producer.forceUpdate();
     }
     detail.carrier.preventDefault = true;
@@ -41,23 +44,23 @@ function observer(params = '/.*') {
             binds = [];
         }
         binds.push(['state', undefined, [typeof params === 'string' ? [params] : params, reactStateObservedConsumer]]);
-        binds.forEach(bindParams => {
-            const key = bindParams[0];
-            const keyDescriptor = bindParams[1];
-            if (!keyDescriptor) {
-                const backingPropertyName = `__${key}`;
-                Object.defineProperty(targetPrototype, key, {
-                    get: function () {
-                        return this[backingPropertyName];
-                    },
-                    set: function (value) {
-                        this[backingPropertyName] = value;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-            }
-        });
+        // binds.forEach(bindParams => {
+        //     const key = bindParams[0]
+        //     const keyDescriptor = bindParams[1]
+        //     if (!keyDescriptor) {
+        //         const backingPropertyName = `__${key}`
+        //         Object.defineProperty(targetPrototype, key, {
+        //             get: function () {
+        //                 return this[backingPropertyName]
+        //             },
+        //             set: function (value) {
+        //                 this[backingPropertyName] = value
+        //             },
+        //             enumerable: true,
+        //             configurable: true
+        //         })
+        //     }
+        // })
         const bindOut = function (self, key, element, comsumer) {
             if (element.length === 0) {
                 self.bindOut(key, comsumer);
