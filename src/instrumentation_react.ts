@@ -83,8 +83,8 @@ export function observer(params: string | Array<any> = '/.*'): any {
         }
 
         return eval(`(class ${target.name} extends target {
-            constructor(props) {
-                super(props)
+            constructor(props, context) {
+                super(props, context)
                 installBinders(this)
             }
 
