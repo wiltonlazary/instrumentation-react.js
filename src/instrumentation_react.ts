@@ -52,26 +52,6 @@ export function observer(params: string | Array<any> = '/.*'): any {
 
         binds.push(['state', undefined, [typeof params === 'string' ? [params] : params, reactStateObservedConsumer]])
 
-        // binds.forEach(bindParams => {
-        //     const key = bindParams[0]
-        //     const keyDescriptor = bindParams[1]
-
-        //     if (!keyDescriptor) {
-        //         const backingPropertyName = `__${key}`
-
-        //         Object.defineProperty(targetPrototype, key, {
-        //             get: function () {
-        //                 return this[backingPropertyName]
-        //             },
-        //             set: function (value) {
-        //                 this[backingPropertyName] = value
-        //             },
-        //             enumerable: true,
-        //             configurable: true
-        //         })
-        //     }
-        // })
-
         const bindOut = function (self, key: string, element: string, comsumer) {
             if (element.length === 0) {
                 self.bindOut(key, comsumer)
